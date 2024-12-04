@@ -62,6 +62,6 @@ async def log_requests_and_responses(request: Request, call_next):
 
     return response
 
-@app.get("/")
-async def root():
-    return {"message": "Welcome to Doggy Dog World!."}
+# @app.get("/")
+# async def root():
+#     return {"message": "Welcome to Doggy Dog World!."}
