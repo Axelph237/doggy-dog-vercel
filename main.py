@@ -6,12 +6,12 @@ import logging
 from starlette.middleware.cors import CORSMiddleware
 from src.api import users, entrants, games, gameplay, leaderboards
 import time
-import uvicorn
 
 description = """
 Doggy Dog World is where we watch the fights of your dreams.
 """
 
+# FastAPI app initialization
 app = FastAPI(
     title="Doggy Dog World",
     description=description,
@@ -24,8 +24,9 @@ app = FastAPI(
 )
 
 # Unnecessary at the moment, this allows requests to be made from these origins.
-origins = ["http://localhost:3000"] # Locally hosted frontend, add server frontend later
+origins = ["http://localhost:3000"]  # Locally hosted frontend, add server frontend later
 
+# CORS middleware configuration
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -34,12 +35,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Include routers for different parts of the app
 app.include_router(users.router)
 app.include_router(gameplay.router)
 app.include_router(games.router)
 app.include_router(entrants.router)
 app.include_router(leaderboards.router)
 
+# Exception handler for validation errors
 @app.exception_handler(exceptions.RequestValidationError)
 @app.exception_handler(ValidationError)
 async def validation_exception_handler(request, exc):
@@ -51,26 +54,16 @@ async def validation_exception_handler(request, exc):
 
     return JSONResponse(response, status_code=422)
 
-# Middleware to get round trip time for every endpoint call
+# Middleware to log round trip time for every endpoint call
 @app.middleware("http")
 async def log_requests_and_responses(request: Request, call_next):
-
     start_time = time.time()
     response = await call_next(request)
     process_time = time.time() - start_time
-
     print(f"Process time: {process_time:.4f} seconds")
-
     return response
 
+# Root endpoint
 @app.get("/")
 async def root():
-    return {"message": "Welcome to Doggy Dog World!."}
-
-
-# This handler function will be used by Vercel for serverless execution
-def handler(event, context):
-    """Serverless function handler that runs uvicorn"""
-    config = uvicorn.Config("main:app", port=3000, log_level="info", reload=True, env_file=".env")
-    server = uvicorn.Server(config)
-    server.run()
+    return {"message": "Welcome to Doggy Dog World!"}
