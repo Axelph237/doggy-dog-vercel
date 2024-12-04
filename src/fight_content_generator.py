@@ -16,8 +16,22 @@ from colorama import Fore, Style
 
 load_dotenv()
 
-bedrock = boto3.client('bedrock-runtime', region_name='us-west-2')
-bedrock_client = boto3.client('bedrock', region_name='us-west-2')
+AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
+AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
+AWS_REGION = 'us-west-2'
+# Initialize AWS clients with credentials
+bedrock = boto3.client(
+    'bedrock-runtime',
+    aws_access_key_id=AWS_ACCESS_KEY_ID,
+    aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+    region_name=AWS_REGION
+)
+bedrock_client = boto3.client(
+    'bedrock',
+    aws_access_key_id=AWS_ACCESS_KEY_ID,
+    aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+    region_name=AWS_REGION
+)
 
 supabase = create_client(
     os.environ["SUPABASE_URL"],
