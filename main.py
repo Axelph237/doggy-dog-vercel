@@ -1,6 +1,7 @@
 import uvicorn
 
-if __name__ == "__main__":
+
+def handler(event, context):
     config = uvicorn.Config(
         "src.api.server:app", port=3000, log_level="info", reload=True, env_file=".env"
     )
