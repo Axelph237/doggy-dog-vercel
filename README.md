@@ -1,3 +1,5 @@
+Front End Repo: https://github.com/Axelph237/ddw-app
+
 ### We're building an API for a betting game with simulated fighting.
 Players will join an active game and be given money. In addition to being given money on join, they will also be able to create an entrant to fight other players' entrants. Every round will be composed of a set of matches where players will bet on which entrant they think will win. A winner will be selected, and then play will continue. Entrants will fight tourney style until one reigns supreme. Player's final money amounts will be displayed on a persistent leaderboard.
 
